@@ -1,6 +1,7 @@
 import { revalidatePath } from "next/cache";
 import connectMongoDB from '../lib/mongoDB'
 import Merchant from "../models/merchant";
+import { getUrl } from "../utils/utils";
 
 export async function merchantSignup(formData: FormData) {
     "use server";
@@ -29,4 +30,18 @@ export async function merchantSignup(formData: FormData) {
       console.error('Error creating merchant:', error);
       throw new Error('Failed to create merchant');
     }
+}
+
+export const getMerchant = async (merchantId: String) => {
+  const url = getUrl('merchant/getMerchant')
+
+  const res = await fetch(url, {
+
+    method: 'POST',
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify({ _id: merchantId })
+  })
+  const merchant = await res.json()
+
+  return merchant
 }
