@@ -1,19 +1,33 @@
-const logger = require('./logger.service')
-const { Server } = require('socket.io')
+import { Server as SocketIOServer } from 'socket.io';
+import { Server as HttpServer } from 'http';
+import  logger  from './logger.service';
 
-var gIo
-function setUp(server, cors) {
-  gIo = new Server(server, { cors })
+let gIo: SocketIOServer | null = null;
+
+/**
+ * Initialize Socket.IO server
+ * @param server - http.Server instance
+ * @param cors - cors options passed to socket.io
+ */
+export function setUp(server: HttpServer, cors?: any): void {
+  gIo = new SocketIOServer(server, { cors });
   gIo.on('connection', (socket) => {
-    console.log('a user connected')
-    console.info(`Socket ${socket.id} has connected to tasks namesapce`)
-  })
+    logger.info('a user connected');
+    logger.info(`Socket ${socket.id} has connected`);
+    // you can add socket event handlers here
+  });
 }
 
-function emit(eventname, data) {
-  gIo.emit(eventname, data)
+/**
+ * Emit an event to all connected sockets
+ */
+export function emit(eventName: string, data: any): void {
+  if (!gIo) {
+    logger.warn('Socket service not initialized. Cannot emit event:', eventName);
+    return;
+  }
+  gIo.emit(eventName, data);
 }
-module.exports = { setUp, emit }
 
 // var gIo = null
 
