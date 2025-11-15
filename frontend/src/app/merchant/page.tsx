@@ -1,62 +1,72 @@
-import { merchantSignup } from "../actions/merchantActions";
+"use client"
+import { useFormState } from "react-dom";
+import { signupMerchant } from "../actions/merchantActions";
+import { FormError } from "../cmps/FormError";
+import Logo from "../cmps/Logo";
+
 
 export default function MerchantSignup() {
-  
+  const [state, fromAction] = useFormState(signupMerchant, { success: false })
 
   return (
-    <div>
-      <h1>Merchant Onboarding</h1>
-      <p>
-        Please fill in your business details. Your crypto address will be used
-        for receiving payments.
-      </p>
+    <section className="sign-up-container gc2 flex-col flex-ac">
 
-      <form action={merchantSignup}>
-        <div>
-          <label>Business Name:</label>
-          <input type="text" name="businessName" required />
-        </div>
+      <section className="sign-up-wrapper">
 
-        <div>
-          <label>Contact Email:</label>
-          <input type="email" name="email" required />
-        </div>
+        <header className="sign-up-header mb-1"><Logo /> </header>
+        <h2 className="mb-1">Create an Account</h2>
+        <p className="mb-1">
+          Please fill in your email, and create a password to get started
+        </p>
 
-        <div>
-          <label>Public Crypto Address:</label>
-          <input type="text" name="publicAddress" required />
-        </div>
+        <form action={fromAction}>
+          <div className="flex-col gap1">
+            <label><span>*</span>Business Name:</label>
+            <input className="h-2" type="text" name="name" required />
+            <FormError errors={state.errors?.name} />
+          </div>
 
-        <fieldset>
-          <legend>Preferred stableCoins</legend>
-          <p>Please choose the coins you’d like to be paid with:</p>
-          <label>
-            <input type="checkbox" name="stableCoins" value="USDT" /> USDT
+          <div className="flex-col gap1">
+            <label><span>*</span>Email:</label>
+            <input className="h-2" type="text" name="email" />
+            <FormError errors={state.errors?.email} />
+          </div>
+
+          <div className="flex-col gap1">
+            <label><span>*</span>Password</label>
+            <input  className="h-2" type="password" name="password" required />
+            <FormError errors={state.errors?.password} />
+          </div>
+          <div className="flex-col gap1">
+            <label><span>*</span>Confirm Password</label>
+            <input className="h-2" type="password" name="confirmPassword" required />
+            <FormError errors={state.errors?.confirmPassword} />
+          </div>
+
+          {state.success && (
+            <div style={{ color: 'green', marginTop: '1rem' }}>
+              Merchant registered successfully!
+            </div>
+          )}
+
+          {/* <fieldset>
+         <span>*</span> <legend>Preferred networks</legend>
+         <p>Please choose the blockchain preferred networks you’d like to operate on:</p>
+         <label>
+         <input type="checkbox" name="networks" value="ethereum" /> Ethereum
           </label>
           <label>
-            <input type="checkbox" name="stableCoins" value="USDC" /> USDC
+          <input type="checkbox" name="networks" value="tron" /> Tron (TRC-20)
           </label>
           <label>
-            <input type="checkbox" name="stableCoins" value="DAI" /> DAI
+          <input type="checkbox" name="networks" value="bsc" /> Binance Smart Chain (BEP-20)
           </label>
-        </fieldset>
+          </fieldset> */}
 
-        <fieldset>
-          <legend>Preferred networks</legend>
-          <p>Please choose the blockchain preferred networks you’d like to operate on:</p>
-          <label>
-            <input type="checkbox" name="networks" value="ethereum" /> Ethereum
-          </label>
-          <label>
-            <input type="checkbox" name="networks" value="tron" /> Tron (TRC-20)
-          </label>
-          <label>
-            <input type="checkbox" name="networks" value="bsc" /> Binance Smart Chain (BEP-20)
-          </label>
-        </fieldset>
-
-        <button type="submit">Register Merchant</button>
-      </form>
-    </div>
+          <button className="h-2 mt-1" type="submit">Register Merchant</button>
+        </form>
+      </section>
+      <div className="backdrop"></div>
+    </section>
   );
 }

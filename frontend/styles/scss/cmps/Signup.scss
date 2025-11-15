@@ -1,0 +1,53 @@
+.sign-up-container {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    pointer-events: none;
+
+    .sign-up-wrapper {
+        pointer-events: auto;
+        /* enable interaction inside the dialog */
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        transition: all 0.4s ease-in-out;
+        padding: 1.5rem;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        z-index: 30;
+        width: min(400px, 92%);
+        max-width: 435px;
+
+        .sign-up-header {
+            align-self: flex-start;
+        }
+
+        .form-error-container {
+            margin-left: 1rem;
+
+            .error-txt {
+                color: red;
+                font-size: small;
+            }
+        }
+    }
+}
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.2) 100% rgba(0, 0, 0, 0.35) 70%,
+            rgba(0, 0, 0, 0.55) 40%,
+            rgba(0, 0, 0, 0.75) 0%,
+        );
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: background 0.25s ease;
+}

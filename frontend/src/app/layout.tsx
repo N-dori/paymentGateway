@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Varela_Round } from "next/font/google";
-// import "../app/assets/scss/main.scss"
-// import "./globals.css";
+import { Inter } from "next/font/google";
+import "@/styles/scss/main.scss"; // Global SCSS import
 
-const varelaRound = Varela_Round ({ weight:'400',subsets: ["hebrew"] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "paymentGateWay",
@@ -24,7 +23,7 @@ export default function RootLayout({
   return (
     
     <html lang="en" style={{height:`100%`}}>
-      <body className={`${varelaRound.className}  main-layout`}>
+      <body className={`${inter.className}  main-layout`}>
           {children}
         {/* <Footer/> */}
       </body>
