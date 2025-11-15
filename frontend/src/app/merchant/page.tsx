@@ -1,12 +1,13 @@
 "use client"
-import { useFormState } from "react-dom";
 import { signupMerchant } from "../actions/merchantActions";
 import { FormError } from "../cmps/FormError";
 import Logo from "../cmps/Logo";
+import React from "react";
+import { SubmitButton } from "../cmps/SubmitButton";
 
 
 export default function MerchantSignup() {
-  const [state, fromAction] = useFormState(signupMerchant, { success: false })
+  const [state, fromAction] = React.useActionState(signupMerchant, { success: false })
 
   return (
     <section className="sign-up-container gc2 flex-col flex-ac">
@@ -34,7 +35,7 @@ export default function MerchantSignup() {
 
           <div className="flex-col gap1">
             <label><span>*</span>Password</label>
-            <input  className="h-2" type="password" name="password" required />
+            <input className="h-2" type="password" name="password" required />
             <FormError errors={state.errors?.password} />
           </div>
           <div className="flex-col gap1">
@@ -43,11 +44,7 @@ export default function MerchantSignup() {
             <FormError errors={state.errors?.confirmPassword} />
           </div>
 
-          {state.success && (
-            <div style={{ color: 'green', marginTop: '1rem' }}>
-              Merchant registered successfully!
-            </div>
-          )}
+
 
           {/* <fieldset>
          <span>*</span> <legend>Preferred networks</legend>
@@ -63,7 +60,12 @@ export default function MerchantSignup() {
           </label>
           </fieldset> */}
 
-          <button className="h-2 mt-1" type="submit">Register Merchant</button>
+          <SubmitButton txt={'Register Merchant'} txtWhenPending={'Registering...'} />
+          {state.success && (
+            <div style={{ color: 'green', marginTop: '1rem' }}>
+              Merchant registered successfully!
+            </div>
+          )}
         </form>
       </section>
       <div className="backdrop"></div>
